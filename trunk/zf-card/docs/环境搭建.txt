@@ -1,0 +1,89 @@
+一、保证能够使用gcc、g++、make, cmake，并且能够使用pthread
+操作手册(确保gcc、g++、cmake可以使用)
+sudo apt-get install build-essential        // 安装主要编译工具 gcc, g++, make 
+sudo apt-get install autoconf automake1.9
+sudo apt-get install flex bison 
+sudo apt-get install manpages-dev           // 安装C语言函数man文档 
+sudo apt-get install binutils-doc cpp-doc gcc-doc glibc-doc stl-manual manpages-posix manpages-posix-dev  //安装相关文档
+
+
+二、将各个tar包上传到/home/zhanghy/install/目录下， 之后进行解压
+
+三、安装libevent
+  1、# cd libevent-2.0.18-stable/ 
+  2、# ./configure
+  3、# make
+  4、# sudo make install
+
+四、安装pcre
+  1、# cd pcre-8.10
+  2、# ./configure
+  3、# make
+  4、# sudo make install
+
+五、安装openssl
+  1、# cd openssl-1.0.1c
+  2、# make
+  3、# sudo make install
+
+六、安装FastDFS
+  1、# cd FastDFS
+  2、# ./make.sh
+  3、# ./make.sh install                         // 将配置文件拷贝到/etc/fdfs/目录下，可执行程序拷贝到/usr/local/bin/目录下
+  4、# mkdir /data/fdfs/                         // 创建FastDFS数据保存的目录
+  5、# vim /etc/fdfs/tracker.ini                 // 修改配置
+  6、#                                           // 启动
+  
+七、安装mysql (http://www.cnblogs.com/fly1988happy/archive/2011/11/21/2257682.html   http://www.cnblogs.com/chenjunbiao/archive/2011/01/24/1940256.html)
+  -- 创建mysql的安装目录及数据库存放目录
+  1、# sudo mkdir -p /usr/local/mysql                 // 安装mysql 
+  2、# sudo mkdir -p /usr/local/mysql/data            // 存放数据库
+  
+  -- 创建mysql用户及用户组
+  3、# sudo groupadd mysql
+  4、# sudo useradd -r -g mysql mysql
+  
+  -- 编译
+  5、# cd mysql-5.5.24
+  6、# apt-get install libncurses5-dev                // 或yum -y install ncurses-devel                 // rm CMakeCache.txt
+  7、# cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DEXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1
+  8、# make
+  9、# sudo make install
+  
+  -- 设置目录权限
+  10、# cd /usr/local/mysql
+  11、# sudo chown -R root:mysql .
+  12、# sudo chown -R mysql:mysql data
+  
+  -- 
+  13、# sudo cp support-files/my-medium.cnf /etc/my.cnf　// 将mysql的启动服务添加到系统服务中
+  14、# scripts/mysql_install_db --user=mysql            // 创建系统数据库的表
+  15、# vi /etc/profile                                  // PATH=$PATH:$HOME/bin:/usr/local/mysql/bin:/usr/local/mysql/lib
+  16、# cp support-files/mysql.server  /etc/init.d/
+  17、# // 修改配置
+  18、# service mysql.server start    //启动
+
+八、安装nginx
+  1、# cd nginx-1.2.5
+  2、# ./configure --prefix=/usr/local/nginx --without-http_gzip_module --with-http_ssl_module --with-openssl=/home/zhanghy/install/openssl-1.0.1c --with-pcre=/home/zhanghy/install/pcre-8.10
+     #注：--add-module=/usr/local/src/sip/nginx_upload_module-2.2.0
+  3、# make
+  4、# make install
+  5、# 编译spawn-fcgi-1.6.3，之后在src目录下把spawn-fcgi拷贝到/usr/local/nginx/sbin/目录下
+  6、# 编译fcgiwrap
+  7、# 修改配置文件 (在添加自己的服务时，还可能会需要修改配置文件)
+  8、# 启动 
+
+九、安装redis   (http://www.cnblogs.com/viaivi/archive/2011/12/08/2281319.html)
+  1、# cd redis-2.4.15/   
+  2、# make
+  3、# sudo make install
+---------------------------------------------------------------------------------------------
+
+
+各个项目的启动并设置为随机启动
+  
+拷贝一些编程需要使用到的库(fcgi-2.4.0  gtest-1.5.0  log4cpp)，并生成对应的.a, .so
+
+
+建立SVN服务器，建立各模块的目录

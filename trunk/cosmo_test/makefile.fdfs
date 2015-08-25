@@ -1,0 +1,12 @@
+include ./Makefile.in
+
+INCLUDE += -I /usr/local/mysql/include -I /usr/local/include/fastcommon 
+LIB_CLUDE = -L /usr/local/mysql/lib 
+
+LINK_LIB = -lfdfsclient -llog4cpp   
+
+test_fdfs:test_fastdfs.o
+	$(CXX) $(CFLAGS) $(INCLUDE) test_fastdfs.o -o $@ $(INCLUDE) $(LIB_CLUDE) $(LINK_LIB) 
+
+clean:
+	rm test_mysql

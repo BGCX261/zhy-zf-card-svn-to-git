@@ -1,0 +1,17 @@
+CXX=g++
+CC=gcc
+CFLAGS=-g -Wall -fPIC -Werror -Wno-deprecated -fno-omit-frame-pointer -DUDP_MSG_MAX_LEN=65535
+INCLUDE=-I/usr/local/include -I../common -I/usr/local/include/zookeeper 
+VPATH=../common ../statistics/c/ 
+DESTINCDIR=/usr/local/include/kiev
+DESTLIBDIR=/usr/local/lib
+
+#编译规则
+.cpp.o:
+	$(CXX) $(CFLAGS) -o $@ -c $< $(INCLUDE)
+
+.cc.o:
+	$(CXX) $(CFLAGS) -o $@ -c $< $(INCLUDE)
+
+.c.o:
+	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)

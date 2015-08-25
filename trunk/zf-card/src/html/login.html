@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>login</title> 
+  <link rel="stylesheet" href="css/common.css">
+  <script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<body> 
+<div class="wrap"> 
+  <form id="regForm" action="#" method="post"> 
+    <section class="loginForm"> 
+      <header> 
+        <h1>登录</h1> 
+      </header> 
+      <div class="loginForm_content"> 
+        <fieldset> 
+          <div class="inputWrap"> 
+            <input type="text" id="userName" name="userName" placeholder="邮箱/会员帐号/手机号" autofocus required> 
+          </div> 
+          <div class="inputWrap"> 
+            <input type="password" id="password" name="password" placeholder="请输入密码" required> 
+          </div> 
+        </fieldset> 
+        <fieldset> 
+          <input type="checkbox" checked="checked"> 
+          <span>下次自动登录</span> 
+        </fieldset> 
+        <fieldset> 
+          <input type="button" value="登录" onClick=do_commit();>
+          <a href="#">忘记密码？</a> <a href="#">注册</a> 
+        </fieldset> 
+      </div> 
+    </section> 
+  </form> 
+</div> 
+
+<script Language="javascript">
+	function do_commit()
+	{
+		var userNameObj = $("#userName");
+		var userName = userNameObj.val();
+		alert(userName);
+		
+		var pwdObj = $("#password");
+		var pwd = pwdObj.val();
+		alert(pwd);
+		
+		$.get("/bin/login.cgi?name=" + userName + "&password=" + pwd, null, callback);
+	}
+	
+	function callback(data){
+		alert(data);
+    //4.将服务器端返回的数据动态的显示在页面上
+    //var resultObj=$("#result");
+    //动态的改变页面中div的内容
+    //resultObj.html(data);
+  }
+  
+	/*
+	function doCommit(actioUrl)
+	{
+		regForm.action=actioUrl;
+		regForm.method='POST';
+		regForm.submit();
+	}
+	
+	// JQuery或Node.js, ajax
+	function post(URL, PARAMS) {        
+    var temp = document.createElement("form");        
+    temp.action = URL;        
+    temp.method = "post";        
+    temp.style.display = "none";        
+    for (var x in PARAMS) {
+        var opt = document.createElement("textarea");        
+        opt.name = x;        
+        opt.value = PARAMS[x];        
+        // alert(opt.name)
+        temp.appendChild(opt);        
+    }        
+    document.body.appendChild(temp);        
+    temp.submit();        
+    return temp;        
+ }
+ */
+</script>
+
+</body> 
+</html> 
